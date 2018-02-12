@@ -34,7 +34,6 @@ import sys
 import json
 import shlex
 import logging
-import argparse
 import subprocess
 
 
@@ -1175,6 +1174,12 @@ def main():
     logger.setLevel(logging.DEBUG)
     logger.addHandler(logging.StreamHandler(sys.stdout))
 
+    try:
+        import argparse
+    except ImportError:
+        logger.error("'distro' cli invocation requires "
+                     "'argparse' available on python 2.7 or newer.")
+        return 1
     parser = argparse.ArgumentParser(description="OS distro info tool")
     parser.add_argument(
         '--json',
